@@ -1,0 +1,57 @@
+version: '3.7'
+
+services:
+  django-recetas:
+    restart: always
+    build: .
+    container_name: django-recetas
+   # env_file: .core/.env
+    ports:
+      - "8000:8000"
+    volumes:
+      - .:/app
+      - /app:/app
+    working_dir: /app
+    networks:
+      - network-recetas
+    depends_on:
+      - mysql-recetas
+      - phpmyadmin-recetas
+
+  mysql-recetas:
+    image: mysql:8.0
+    command: --default-authentication-plugin=mysql_native_password  
+    container_name: mysql-recetas
+    volumes:
+      - ./database_data:/var/lib/mysql
+    expose:
+      - "3306"
+    restart: unless-stopped
+    env_file: .env 
+    networks:
+      - network-recetas
+    environment:
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}   
+
+  phpmyadmin-recetas:
+    image: phpmyadmin:5.2.1-apache
+    container_name: phpmyadmin-recetas
+    restart: unless-stopped   
+    ports:      
+      - 127.0.0.1:8085:80        
+    environment:
+      PMA_HOST: mysql-recetas
+      PMA_USER: ${MYSQL_USER}
+      PMA_PASSWORD: ${MYSQL_PASSWORD} 
+      # PMA_AUTH_TYPE: cookie   # Agrega esta línea para habilitar la autenticación basada en cookies
+    networks:
+      - network-recetas
+    depends_on:
+      - mysql-recetas
+
+networks:
+  network-recetas:
+    driver: bridge
