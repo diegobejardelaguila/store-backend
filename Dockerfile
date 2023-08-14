@@ -1,9 +1,8 @@
 FROM python:3.8.0-alpine3.10
 
-
 COPY wait-for-django.sh /app/wait-for-django.sh
-
 RUN chmod +x /app/wait-for-django.sh
+
 
 WORKDIR /app
 
