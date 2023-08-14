@@ -1,10 +1,9 @@
 FROM python:3.8.0-alpine3.10
 
 
-COPY wait-for.sh /app/wait-for.sh
+COPY wait-for-django.sh /app/wait-for-django.sh
 
-RUN chmod +x /app/wait-for.sh
-RUN chown root:root /app/wait-for.sh
+RUN chmod +x /app/wait-for-django.sh
 
 WORKDIR /app
 
@@ -22,4 +21,4 @@ RUN pip install -r requirements.txt
 
 COPY ./ ./
 
-CMD ["./wait-for.sh", "mysql-recetas", "python","manage.py","runserver","0.0.0.0:8000"]
+CMD ["./wait-for-django.sh", "mysql-recetas", "python","manage.py","runserver","0.0.0.0:8000"]
