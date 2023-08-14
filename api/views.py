@@ -28,6 +28,8 @@ class ProductoView(APIView):
 
         serializer = ProductoSerializer(data=mutable_data)
         if not serializer.is_valid():
+
+            print(serializer.errors)
             return Response(data={
                 **serializer.errors,
                 'success': False
