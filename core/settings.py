@@ -47,9 +47,7 @@ THIRD_PARTY_APPS = [
     'rest_framework_simplejwt.token_blacklist',
     'ckeditor',
     'ckeditor_uploader',
-    'drf_yasg',
-    'django_api_gen'
-
+    'drf_yasg'
 ]
 
 INSTALLED_APPS = DJANGO_APPS + PROJECT_APPS + THIRD_PARTY_APPS
