@@ -37,6 +37,12 @@ class ProductoView(APIView):
     def get(self, request, pk=None):
         user = request.user
 
+        if not user.is_authenticated:
+            return Response({
+                'data': [ProductoSerializer(instance=obj).data for obj in Producto.objects.filter(user=user.id)],
+                'success': True
+            }, status=HTTPStatus.OK)
+
         if not pk:
             return Response({
                 'data': [ProductoSerializer(instance=obj).data for obj in Producto.objects.filter(user=user.id)],
