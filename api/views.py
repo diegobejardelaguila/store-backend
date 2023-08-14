@@ -19,6 +19,9 @@ class ProductoView(APIView):
     permission_classes = (IsAuthenticatedOrReadOnly,)
 
     def post(self, request):
+        user = request.user
+        request.data['user'] = user.id
+
         serializer = ProductoSerializer(data=request.data)
         if not serializer.is_valid():
             return Response(data={
@@ -32,13 +35,15 @@ class ProductoView(APIView):
         }, status=HTTPStatus.OK)
 
     def get(self, request, pk=None):
+        user = request.user
+
         if not pk:
             return Response({
-                'data': [ProductoSerializer(instance=obj).data for obj in Producto.objects.all()],
+                'data': [ProductoSerializer(instance=obj).data for obj in Producto.objects.filter(user=user.id)],
                 'success': True
             }, status=HTTPStatus.OK)
         try:
-            obj = get_object_or_404(Producto, pk=pk)
+            obj = get_object_or_404(Producto, pk=pk,user=user.i)
         except Http404:
             return Response(data={
                 'message': 'object with given id not found.',
