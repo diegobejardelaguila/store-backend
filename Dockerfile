@@ -4,6 +4,7 @@ FROM python:3.8.0-alpine3.10
 COPY wait-for.sh /app/wait-for.sh
 
 RUN chmod +x /app/wait-for.sh
+RUN chown root:root /app/wait-for.sh
 
 WORKDIR /app
 
