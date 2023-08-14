@@ -36,22 +36,6 @@ services:
       MYSQL_USER: ${MYSQL_USER}
       MYSQL_PASSWORD: ${MYSQL_PASSWORD}   
 
-  phpmyadmin-recetas:
-    image: phpmyadmin:5.2.1-apache
-    container_name: phpmyadmin-recetas
-    restart: unless-stopped   
-    ports:      
-      - 127.0.0.1:8085:80        
-    environment:
-      PMA_HOST: mysql-recetas
-      PMA_USER: ${MYSQL_USER}
-      PMA_PASSWORD: ${MYSQL_PASSWORD} 
-      # PMA_AUTH_TYPE: cookie   # Agrega esta línea para habilitar la autenticación basada en cookies
-    networks:
-      - network-recetas
-    depends_on:
-      - mysql-recetas
-
 networks:
   network-recetas:
     driver: bridge
