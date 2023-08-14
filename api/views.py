@@ -20,9 +20,13 @@ class ProductoView(APIView):
 
     def post(self, request):
         user = request.user
-        request.data['user'] = user.id
+    
+        # Crear una copia mutable de los datos
+        mutable_data = request.data.copy()
 
-        serializer = ProductoSerializer(data=request.data)
+        mutable_data['user'] = user.id
+
+        serializer = ProductoSerializer(data=mutable_data)
         if not serializer.is_valid():
             return Response(data={
                 **serializer.errors,
