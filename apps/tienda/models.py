@@ -12,7 +12,7 @@ class Producto(models.Model):
     cantidad = models.PositiveIntegerField()
     fecha_compra = models.DateField()
     fecha_vencimiento = models.DateField()
-    usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.nombre
