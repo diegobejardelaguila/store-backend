@@ -16,7 +16,6 @@ services:
       - network-recetas
     depends_on:
       - mysql-recetas
-      - phpmyadmin-recetas
 
   mysql-recetas:
     image: mysql:8.0
